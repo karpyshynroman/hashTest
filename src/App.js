@@ -1,26 +1,44 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Contact from "./components/Contact";
+import Home from "./components/Home";
+import Project from "./components/Project";
+import {Route, Link, Switch, withRouter} from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+    state = {
+        path : ''
+    };
+
+    setPathName = (event) => {
+      this.setState({
+         path: event.target.innerText
+      });
+    };
+
+    render() {
+        console.log(this.props);
+        return (
+            <div className="App">
+                    <Switch>
+                        <Route exact path='/' component={Home} />
+                        <Route path='/contact' component={Contact}/>
+                        <Route path='/project' component={Project}/>
+                    </Switch>
+                    <Link to="/contact">
+                        {!this.state.path.includes('contact') &&
+                        <button onClick={this.setPathName}>click go to contact</button>
+                        }
+                    </Link>
+                    <Link to="/project">
+                        {!this.state.path.includes('project') &&
+                        <button onClick={this.setPathName}>click go to project</button>
+                        }
+                    </Link>
+            </div>
+        );
+    }
 }
 
-export default App;
+export default withRouter(App);
